@@ -13,7 +13,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Scenes\" />
+    <Folder Include="GameObjects\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="D:\OneDrive\PC\Scripts\C#\ZomBit\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="D:\OneDrive\PC\Scripts\C#\ZomBit\.editorconfig" />
   </ItemGroup>
 
 </Project>

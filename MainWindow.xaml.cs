@@ -1,6 +1,5 @@
 ﻿using System.Reactive.Linq;
 using System.Windows;
-using System.Windows.Threading;
 
 namespace ZomBit
 {
@@ -9,11 +8,13 @@ namespace ZomBit
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static Game? Game { get; private set; }
         private const double ASPECT_RATIO = 0.5625;
 
         public MainWindow()
         {
             InitializeComponent();
+            Game = new Game(Frame);
 
             // Keep aspect ratio on resize (16:9)
             _ = Observable.FromEventPattern<SizeChangedEventArgs>(this, nameof(SizeChanged))
