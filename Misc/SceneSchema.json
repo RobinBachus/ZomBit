@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "Frames": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "GameObjects": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "Type": {
+                  "type": "string"
+                },
+                "Position": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "additionalItems": false
+                },
+                "Width": {
+                  "type": "integer"
+                },
+                "Height": {
+                  "type": "integer"
+                },
+                "Color": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "additionalItems": false
+                },
+                "IsObjective": {
+                  "type": "boolean"
+                },
+                "IsCollidable": {
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "Type",
+                "Position",
+                "Width",
+                "Height"
+              ]
+            },
+            "additionalItems": false
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "GameObjects"
+        ]
+      },
+      "additionalItems": false
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "Frames"
+  ]
+}

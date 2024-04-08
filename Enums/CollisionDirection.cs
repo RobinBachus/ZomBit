@@ -1,11 +1,10 @@
-﻿namespace ZomBit.Enums
+﻿namespace ZomBit.Enums;
+
+internal enum CollisionDirection
 {
-	internal enum CollisionDirection
-	{
-		None,
-		Top,
-		Bottom,
-		Left,
-		Right
-	}
+	None,
+	Top,
+	Bottom,
+	Left,
+	Right
 }

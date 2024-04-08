@@ -1,19 +1,20 @@
 ﻿using System.Collections.Immutable;
+using ZomBit.BuiltIn;
 using ZomBit.BuiltIn.CollidableShapes;
 
 namespace ZomBit
 {
-	internal abstract class Scene
+	internal abstract class SceneBase
 	{
 		private int _currentViewIndex;
 
-		public abstract ImmutableList<View> Views { get; }
+		public virtual ImmutableList<View> Views => ImmutableList<View>.Empty;
 
-		public View CurrentView { get => Views[_currentViewIndex]; }
+		public View? CurrentView { get => _currentViewIndex < Views.Count ? Views[_currentViewIndex] : null; }
 
-		private CollidableRectangle? _objective;
+		private CollidableShape? _objective;
 
-		public CollidableRectangle? Objective
+		public CollidableShape? Objective
 		{
 			get => _objective;
 			set
@@ -39,9 +40,9 @@ namespace ZomBit
 		}
 
 		/// <summary>
-		/// Try to get the next view in the scene.
+		/// Try to get the next view in the sceneBase.
 		/// </summary>
-		/// <returns> The next view in the scene, or null if there are no more views. </returns>
+		/// <returns> The next view in the sceneBase, or null if there are no more views. </returns>
 		public View? NextView()
 		{
 			if (_currentViewIndex + 1 >= Views.Count) return null;
@@ -51,9 +52,9 @@ namespace ZomBit
 		}
 
 		/// <summary>
-		/// Try to get the previous view in the scene.
+		/// Try to get the previous view in the sceneBase.
 		/// </summary>
-		/// <returns> The previous view in the scene, or null if there are no more views. </returns>
+		/// <returns> The previous view in the sceneBase, or null if there are no more views. </returns>
 		public View? PreviousView()
 		{
 			if (_currentViewIndex - 1 < 0) return null;

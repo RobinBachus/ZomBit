@@ -2,9 +2,10 @@
 
 namespace ZomBit.Interfaces
 {
-	internal interface ICollidable<out TSelf> where TSelf: GameObject
+	internal interface ICollidable<out TSelf> where TSelf : GameObject
 	{
-		private TSelf Self => this as TSelf ?? throw new InvalidCastException("This object is not a child of type GameObject");
+		private TSelf Self =>
+			this as TSelf ?? throw new InvalidCastException("This object is not a child of type GameObject");
 
 		public ICollidable<TSelf> Collidable { get; }
 
@@ -53,13 +54,12 @@ namespace ZomBit.Interfaces
 
 			if (!(Math.Abs(x) <= width) || !(Math.Abs(y) <= height))
 				return CollisionDirection.None;
-			
+
 
 			if (crossWidth > crossHeight)
 				return crossWidth > -crossHeight ? CollisionDirection.Top : CollisionDirection.Left;
 
 			return crossWidth > -crossHeight ? CollisionDirection.Right : CollisionDirection.Bottom;
 		}
-
 	}
 }

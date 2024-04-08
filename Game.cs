@@ -16,7 +16,8 @@ namespace ZomBit
 		{
 			get
 			{
-				List<GameObject> gameObjects = CurrentScene.CurrentView.GameObjects.ToList();
+				List<GameObject>? gameObjects = CurrentSceneBase.CurrentView?.GameObjects.ToList();
+				if (gameObjects == null) return ImmutableList<GameObject>.Empty;
 				if (Player != null) gameObjects.Add(Player);
 				
 				return gameObjects.ToImmutableList();
@@ -29,18 +30,18 @@ namespace ZomBit
 		private readonly DispatcherTimer _tickTimer = new(TimeSpan.FromMilliseconds(1000 / 60.0), DispatcherPriority.Normal,
 			(e, s) => { }, Dispatcher.CurrentDispatcher);
 
-		private static readonly List<Scene> Scenes = new(); // TODO: Implement scenes system
+		private static readonly List<SceneBase> Scenes = new(); // TODO: Implement scenes system
 		private static int _currentSceneIndex;
 
-		internal static Scene CurrentScene => Scenes[_currentSceneIndex];
+		internal static SceneBase CurrentSceneBase => Scenes[_currentSceneIndex];
 
 		public Game(Canvas frame)
 		{
 			_tickTimer.Tick += Update;
 			_tickTimer.Start();
 			Frame = frame;
-			Scenes.Add(new Scenes.Scene0()); // TODO: Implement scenes system
-			CurrentScene.ObjectiveReached += (_, _) => Debug.WriteLine("Objective reached!");
+			Scenes.Add(new Scenes.S0.Scene()); // TODO: Implement scenes system
+			CurrentSceneBase.ObjectiveReached += (_, _) => Debug.WriteLine("Objective reached!");
 			Player = new Player();
 			Frame.Focus();
 		}
