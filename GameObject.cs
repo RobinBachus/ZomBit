@@ -4,7 +4,6 @@ namespace ZomBit
 {
 	internal abstract class GameObject()
 	{
-
 		public int X { get; set; }
 		public int Y { get; set; }
 		public (int, int) Position
@@ -17,12 +16,13 @@ namespace ZomBit
 		public int Height { get; set; }
 		public (int, int) Size => (Width, Height);
 
+		protected abstract W_Shapes.Shape? StaticDrawable { get; }
 
 		// Return the drawable object
 		/// <summary>
 		/// The drawable object, generally a shape that can be rendered on the canvas.
 		/// </summary>
-		public abstract W_Shapes.Shape? Drawable { get; }
+		public virtual W_Shapes.Shape? Drawable => StaticDrawable;
 
 		public bool IsVisible { get; set; } = true;
 

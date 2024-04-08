@@ -6,22 +6,21 @@ namespace ZomBit.GameObjects
 {
 	internal class Player : GameObject, IMovable, ICollidable<Player>
 	{
-		private readonly W_Shapes.Rectangle _drawable;
-
-		/// <inheritdoc />
-		public override W_Shapes.Shape Drawable => _drawable;
+		protected override W_Shapes.Rectangle StaticDrawable { get; }
 
 		public ICollidable<Player> Collidable => this;
+
+		public bool CollisionsEnabled { get; set; } = true;
 
 		public event EventHandler<CollisionEventArgs>? Collision;
 
 		private const int GRAVITY = -10;
 
-		private int _jumpHeight = 0;
+		private int _jumpHeight;
 
 		public Player() : base((25, 200), 50, 50)
 		{
-			_drawable = new W_Shapes.Rectangle
+			StaticDrawable = new W_Shapes.Rectangle
 			{
 				Fill = new SolidColorBrush(Colors.SandyBrown),
 				Width = Width,

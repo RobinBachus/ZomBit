@@ -8,6 +8,8 @@ namespace ZomBit.Interfaces
 
 		public ICollidable<TSelf> Collidable { get; }
 
+		public bool CollisionsEnabled { get; set; }
+
 		public event EventHandler<CollisionEventArgs>? Collision;
 		private protected void CheckCollision();
 
@@ -17,14 +19,14 @@ namespace ZomBit.Interfaces
 		/// <param name="other">The other object</param>
 		/// <returns>True if the objects collide, false otherwise</returns>
 		public bool CollidesWith(GameObject other) =>
-			other is ICollidable<GameObject> &&
+			other is ICollidable<GameObject> { CollisionsEnabled: true } &&
 			Self.X < other.X + other.Width &&
 			Self.X + Self.Width > other.X &&
 			Self.Y < other.Y + other.Height &&
 			Self.Y + Self.Height > other.Y;
 
 		public bool IsTouching(GameObject other) =>
-			other is ICollidable<GameObject> &&
+			other is ICollidable<GameObject> { CollisionsEnabled: true } &&
 			Self.X <= other.X + other.Width &&
 			Self.X + Self.Width >= other.X &&
 			Self.Y <= other.Y + other.Height &&

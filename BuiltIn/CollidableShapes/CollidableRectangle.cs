@@ -1,22 +1,17 @@
-﻿using ZomBit.Enums;
-using ZomBit.GameObjects;
-using ZomBit.Interfaces;
-
-namespace ZomBit.BuiltIn.CollidableShapes
+﻿namespace ZomBit.BuiltIn.CollidableShapes
 {
-	internal class CollidableRectangle : Shape, ICollidable<CollidableRectangle>
+	/// <summary>
+	/// A rectangle that can collide with other objects
+	/// </summary>
+	internal class CollidableRectangle : CollidableShape
 	{
-		private readonly W_Shapes.Rectangle _rectangle;
+		protected override W_Shapes.Rectangle StaticDrawable { get; }
 
-		public override W_Shapes.Shape Drawable => _rectangle;
-
-		public ICollidable<CollidableRectangle> Collidable => this;
-		public event EventHandler<CollisionEventArgs>? Collision;
-
-		public CollidableRectangle((int, int) position, int width, int height, Color? color = null)
-			: base(position, width, height, color)
+		/// <inheritdoc cref="CollidableShape"/>
+		public CollidableRectangle((int, int) position, int width, int height, Color? color = null, bool collisionEnabled = true)
+			: base(position, width, height, color, collisionEnabled)
 		{
-			_rectangle = new W_Shapes.Rectangle
+			StaticDrawable = new W_Shapes.Rectangle
 			{
 				Width = Width,
 				Height = Height,
@@ -24,17 +19,6 @@ namespace ZomBit.BuiltIn.CollidableShapes
 			};
 		}
 
-		public void CheckCollision()
-		{
-			foreach (GameObject gameObject in Game.GameObjectsInFrame)
-			{
-				if (gameObject == this) continue;
-
-				CollisionDirection collisionDirection = Collidable.CollidesWithDirection(gameObject);
-				if (collisionDirection is CollisionDirection.None) continue;
-
-				Collision?.Invoke(this, new CollisionEventArgs(this, gameObject, collisionDirection));
-			}
-		}
+		
 	}
 }
