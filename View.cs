@@ -1,14 +1,14 @@
-﻿using System.Collections.Immutable;
-using ZomBit.BuiltIn;
+﻿using ZomBit.BuiltIn;
 using ZomBit.BuiltIn.CollidableShapes;
 using ZomBit.BuiltIn.Shapes;
 using ZomBit.Misc;
+using ZomBit.Scenes;
 
 namespace ZomBit
 {
 	internal class View
 	{
-		public View(SceneBase sceneBase, SceneJsonScheme.Frame frame)
+		public View(Scene scene, SceneJsonScheme.Frame frame)
 		{
 			GameObjects = ImmutableList<GameObject>.Empty;
 			foreach (SceneJsonScheme.GameObject gameObject in frame.GameObjects)
@@ -29,9 +29,13 @@ namespace ZomBit
 				};
 
 				if (gameObject.IsObjective is true)
-					sceneBase.Objective = GameObjects[^1] as CollidableShape;
+					scene.Objective = GameObjects[^1] as CollidableShape;
 			}
 		}
+
+		public static View operator ++(View view) => SceneManager.NextView() ?? view;
+
+		public static View operator --(View view) => SceneManager.PreviousView() ?? view;
 
 		public ImmutableList<GameObject> GameObjects { get; }
 	}

@@ -5,13 +5,13 @@
 	/// </summary>
 	internal class CollidableRectangle : CollidableShape
 	{
-		protected override W_Shapes.Rectangle StaticDrawable { get; }
+		protected override WinShapes.Rectangle StaticDrawable { get; }
 
 		/// <inheritdoc cref="CollidableShape"/>
 		public CollidableRectangle((int, int) position, int width, int height, Color? color = null, bool collisionEnabled = true)
 			: base(position, width, height, color, collisionEnabled)
 		{
-			StaticDrawable = new W_Shapes.Rectangle
+			StaticDrawable = new WinShapes.Rectangle
 			{
 				Width = Width,
 				Height = Height,

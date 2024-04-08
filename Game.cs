@@ -1,10 +1,7 @@
-﻿global using System.Windows.Media;
-global using W_Shapes = System.Windows.Shapes;
-using System.Collections.Immutable;
-using System.Diagnostics;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Threading;
 using ZomBit.GameObjects;
+using ZomBit.Scenes;
 
 namespace ZomBit
 {
@@ -16,7 +13,7 @@ namespace ZomBit
 		{
 			get
 			{
-				List<GameObject>? gameObjects = CurrentSceneBase.CurrentView?.GameObjects.ToList();
+				List<GameObject>? gameObjects = SceneManager.CurrentView?.GameObjects.ToList();
 				if (gameObjects == null) return ImmutableList<GameObject>.Empty;
 				if (Player != null) gameObjects.Add(Player);
 				
@@ -25,35 +22,43 @@ namespace ZomBit
 		}
 
 		/// <summary>
-		/// The timer that ticks every frame
+		/// The timer that ticks every frame (60 fps)
 		/// </summary>
-		private readonly DispatcherTimer _tickTimer = new(TimeSpan.FromMilliseconds(1000 / 60.0), DispatcherPriority.Normal,
+		private static readonly DispatcherTimer _tickTimer = new(TimeSpan.FromMilliseconds(1000 / 60.0), DispatcherPriority.Normal,
 			(e, s) => { }, Dispatcher.CurrentDispatcher);
 
-		private static readonly List<SceneBase> Scenes = new(); // TODO: Implement scenes system
-		private static int _currentSceneIndex;
-
-		internal static SceneBase CurrentSceneBase => Scenes[_currentSceneIndex];
-
-		public Game(Canvas frame)
+		/// <summary>
+		/// The event that gets called every frame
+		/// </summary>
+		/// <remarks>
+		/// Since this is the thread that the game loop runs on, it is important to keep this event as small as possible.
+		/// </remarks>
+		public static event EventHandler Update
 		{
-			_tickTimer.Tick += Update;
-			_tickTimer.Start();
-			Frame = frame;
-			Scenes.Add(new Scenes.S0.Scene()); // TODO: Implement scenes system
-			CurrentSceneBase.ObjectiveReached += (_, _) => Debug.WriteLine("Objective reached!");
-			Player = new Player();
-			Frame.Focus();
+			add => _tickTimer.Tick += value;
+			remove => _tickTimer.Tick -= value;
 		}
 
-		private static void Update(object? sender, EventArgs e)
+		/// <summary>
+		/// Sets the frame and starts the game loop
+		/// </summary>
+		/// <param name="frame"> The canvas to render the game on. </param>
+		public static void Initialize(Canvas frame)
+		{
+			Frame = frame;
+			SceneManager.LoadScenes();
+
+			Player = new Player();
+			Frame.Focus();
+
+			Update += OnUpdate;
+			_tickTimer.Start();
+		}
+
+		private static void OnUpdate(object? sender, EventArgs e)
 		{
 			// Update game
 			GameObjectsInFrame.ForEach(go => go.Update());
 		}
-
-		public static void SetScene(int sceneIndex) => _currentSceneIndex = sceneIndex;
-
-		public static void NextScene() => _currentSceneIndex++;
 	}
 }

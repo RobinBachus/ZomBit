@@ -14,7 +14,7 @@ namespace ZomBit
         public MainWindow()
         {
             InitializeComponent();
-            Game = new Game(Frame);
+			Game.Initialize(Frame);
 
             // Keep aspect ratio on resize (16:9)
             _ = Observable.FromEventPattern<SizeChangedEventArgs>(this, nameof(SizeChanged))

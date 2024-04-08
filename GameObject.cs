@@ -20,13 +20,13 @@ namespace ZomBit
 		/// This is what should be set when the object is created.
 		/// If the Drawable property is set directly, it will not be updated.
 		/// </summary>
-		protected abstract W_Shapes.Shape? StaticDrawable { get; }
+		protected abstract WinShapes.Shape? StaticDrawable { get; }
 
 		// Return the drawable object
 		/// <summary>
 		/// The drawable object, generally a shape that can be rendered on the canvas.
 		/// </summary>
-		public virtual W_Shapes.Shape? Drawable => StaticDrawable;
+		public virtual WinShapes.Shape? Drawable => StaticDrawable;
 
 		public bool IsVisible { get; set; } = true;
 

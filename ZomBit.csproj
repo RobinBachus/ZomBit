@@ -13,23 +13,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EditorConfigFiles Remove="D:\OneDrive\PC\Scripts\C#\ZomBit\.editorconfig" />
+    <None Remove="Scenes\**\Scene.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Scenes\S0\Scene.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Scenes\S0\Scene.json">
+    <EmbeddedResource Include="Scenes\**\Scene.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="D:\OneDrive\PC\Scripts\C#\ZomBit\.editorconfig" />
-  </ItemGroup>
-
-  <ProjectExtensions><VisualStudio><UserProperties scenes_4s0_4scene_1json__JsonSchema="..\..\..\..\C#\ZomBit\Misc\SceneSchema.json" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties scenes_4s0_4scene_1json__JsonSchema="C#\ZomBit\Misc\SceneSchema.json" /></VisualStudio></ProjectExtensions>
 
 </Project>
