@@ -8,7 +8,6 @@ namespace ZomBit
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static Game? Game { get; private set; }
         private const double ASPECT_RATIO = 0.5625;
 
         public MainWindow()

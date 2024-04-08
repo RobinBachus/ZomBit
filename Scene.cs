@@ -40,6 +40,7 @@ namespace ZomBit
 			if (root == null) return;
 
 			Views = root.Frames.Select(frame => new View(this, frame)).ToImmutableList();
+			ObjectiveReached += (_, _) => SceneManager.NextScene();
 		}
 
 		

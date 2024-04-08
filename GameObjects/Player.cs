@@ -56,12 +56,6 @@ namespace ZomBit.GameObjects
 			}
 		}
 
-		public void SetStartPosition(int x, int y)
-		{
-			Position = (x, y);
-		}
-
-
 		/// <summary>
 		/// Move the player.
 		/// </summary>

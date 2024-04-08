@@ -5,7 +5,7 @@ using ZomBit.Scenes;
 
 namespace ZomBit
 {
-	public class Game
+	public static class Game
 	{
 		public static Canvas? Frame { get; private set; }
 		internal static Player? Player { get; private set; }
@@ -21,11 +21,13 @@ namespace ZomBit
 			}
 		}
 
+		private static View? _lastView;
+
 		/// <summary>
 		/// The timer that ticks every frame (60 fps)
 		/// </summary>
 		private static readonly DispatcherTimer _tickTimer = new(TimeSpan.FromMilliseconds(1000 / 60.0), DispatcherPriority.Normal,
-			(e, s) => { }, Dispatcher.CurrentDispatcher);
+			(_, _) => { }, Dispatcher.CurrentDispatcher);
 
 		/// <summary>
 		/// The event that gets called every frame
@@ -57,8 +59,22 @@ namespace ZomBit
 
 		private static void OnUpdate(object? sender, EventArgs e)
 		{
-			// Update game
+			if (Frame == null) return;
+			if (Player == null) return;
+			if (SceneManager.CurrentScene == null) return;
+			if (SceneManager.CurrentView == null) return;
+
+			if (SceneManager.CurrentView != _lastView)
+			{
+				ClearFrame();
+				Player.Position = SceneManager.CurrentView.PlayerStartPosition;
+			}
+
+			_lastView = SceneManager.CurrentView;
+
 			GameObjectsInFrame.ForEach(go => go.Update());
 		}
+
+		public static void ClearFrame() => Frame?.Children.Clear();
 	}
 }

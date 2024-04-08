@@ -1,48 +1,22 @@
 ﻿{
   "Frames": [
     {
+      "PlayerStartX": 0,
+      "PlayerStartY": 0,
       "GameObjects": [
         {
           "Type": "CollidableRectangle",
-          "Position": [0, 0],
-          "Width": 100,
-          "Height": 100
-        },
-        {
-          "Type": "Rectangle",
-          "Position": [100, 100],
+          "Position": [ 100, 0 ],
           "Width": 100,
           "Height": 100,
-          "Color": [255, 0, 0]
+          "Color": [ 255, 0, 0 ]
         },
         {
           "Type": "CollidableRectangle",
-          "Position": [200, 200],
+          "Position": [ 400, 0 ],
           "Width": 100,
           "Height": 100,
-          "Color": [0, 255, 0],
-          "IsCollidable": false
-        },
-        {
-          "Type": "Rectangle",
-          "Position": [300, 300],
-          "Width": 100,
-          "Height": 100,
-          "Color": [0, 0, 255]
-        },
-        {
-          "Type": "CollidableRectangle",
-          "Position": [400, 0],
-          "Width": 100,
-          "Height": 100,
-          "Color": [255, 255, 0]
-        },
-        {
-          "Type": "CollidableRectangle",
-          "Position": [400, 0],
-          "Width": 100,
-          "Height": 100,
-          "Color": [255, 255, 0],
+          "Color": [ 255, 255, 0 ],
           "IsObjective": true
         }
       ]

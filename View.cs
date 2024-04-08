@@ -8,6 +8,8 @@ namespace ZomBit
 {
 	internal class View
 	{
+		public (int, int) PlayerStartPosition { get; }
+
 		public View(Scene scene, SceneJsonScheme.Frame frame)
 		{
 			GameObjects = ImmutableList<GameObject>.Empty;
@@ -30,6 +32,8 @@ namespace ZomBit
 
 				if (gameObject.IsObjective is true)
 					scene.Objective = GameObjects[^1] as CollidableShape;
+
+				PlayerStartPosition = (frame.PlayerStartX, frame.PlayerStartY);
 			}
 		}
 

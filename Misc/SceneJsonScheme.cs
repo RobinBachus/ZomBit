@@ -9,6 +9,8 @@ namespace ZomBit.Misc
 		// Root myDeserializedClass = JsonSerializer.Deserialize<Root>(myJsonResponse);
 		public class Frame
 		{
+			[JsonPropertyName("PlayerStartX")] public int PlayerStartX { get; set; }
+			[JsonPropertyName("PlayerStartY")] public int PlayerStartY { get; set; }
 			[JsonPropertyName("GameObjects")] public List<GameObject> GameObjects { get; set; }
 
 			public Frame()

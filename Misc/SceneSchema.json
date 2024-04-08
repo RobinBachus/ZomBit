@@ -7,6 +7,12 @@
       "items": {
         "type": "object",
         "properties": {
+          "PlayerStartX": {
+            "type": "integer"
+          },
+          "PlayerStartY": {
+            "type": "integer"
+          },
           "GameObjects": {
             "type": "array",
             "items": {
@@ -55,6 +61,8 @@
         },
         "additionalProperties": false,
         "required": [
+          "PlayerStartX",
+          "PlayerStartY",
           "GameObjects"
         ]
       },
