@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using ZomBit.BuiltIn.CollidableShapes;
 
 namespace ZomBit
 {
@@ -9,6 +10,33 @@ namespace ZomBit
 		public abstract ImmutableList<View> Views { get; }
 
 		public View CurrentView { get => Views[_currentViewIndex]; }
+
+		private CollidableRectangle? _objective;
+
+		public CollidableRectangle? Objective
+		{
+			get => _objective;
+			set
+			{
+				if (value == null) return;
+
+				_objective = value;
+				_objective.Collision += (_, _) => CheckObjectiveReached();
+			}
+		}
+
+		public event EventHandler<EventArgs>? ObjectiveReached;
+
+		protected void CheckObjectiveReached()
+		{
+			if (Objective == null) return;
+			if (Game.Player == null) return;
+
+			if (Game.Player.Collidable.CollidesWith(Objective))
+			{
+				ObjectiveReached?.Invoke(this, EventArgs.Empty);
+			}
+		}
 
 		/// <summary>
 		/// Try to get the next view in the scene.

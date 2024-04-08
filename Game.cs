@@ -23,6 +23,9 @@ namespace ZomBit
 			}
 		}
 
+		/// <summary>
+		/// The timer that ticks every frame
+		/// </summary>
 		private readonly DispatcherTimer _tickTimer = new(TimeSpan.FromMilliseconds(1000 / 60.0), DispatcherPriority.Normal,
 			(e, s) => { }, Dispatcher.CurrentDispatcher);
 
@@ -37,6 +40,7 @@ namespace ZomBit
 			_tickTimer.Start();
 			Frame = frame;
 			Scenes.Add(new Scenes.Scene0()); // TODO: Implement scenes system
+			CurrentScene.ObjectiveReached += (_, _) => Debug.WriteLine("Objective reached!");
 			Player = new Player();
 			Frame.Focus();
 		}
@@ -45,7 +49,6 @@ namespace ZomBit
 		{
 			// Update game
 			GameObjectsInFrame.ForEach(go => go.Update());
-
 		}
 
 		public static void SetScene(int sceneIndex) => _currentSceneIndex = sceneIndex;

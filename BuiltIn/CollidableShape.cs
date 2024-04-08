@@ -29,5 +29,11 @@ namespace ZomBit.BuiltIn
 				Collision?.Invoke(this, new CollisionEventArgs(this, gameObject, collisionDirection));
 			}
 		}
+
+		public override void Update()
+		{
+			CheckCollision();
+			base.Update();
+		}
 	}
 }

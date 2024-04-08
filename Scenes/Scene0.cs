@@ -4,7 +4,12 @@ namespace ZomBit.Scenes
 {
 	internal class Scene0 : Scene
 	{
-		public override ImmutableList<View> Views { get; } = ImmutableList<View>.Empty
-			.Add(new Views_Scene0.View0());
+		public Scene0()
+		{
+			Views = ImmutableList<View>.Empty
+				.Add(new Views_Scene0.View0(this));
+		}
+		
+		public override ImmutableList<View> Views { get; }
 	}
 }

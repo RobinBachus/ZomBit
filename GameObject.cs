@@ -16,6 +16,10 @@ namespace ZomBit
 		public int Height { get; set; }
 		public (int, int) Size => (Width, Height);
 
+		/// <summary>
+		/// This is what should be set when the object is created.
+		/// If the Drawable property is set directly, it will not be updated.
+		/// </summary>
 		protected abstract W_Shapes.Shape? StaticDrawable { get; }
 
 		// Return the drawable object
@@ -49,6 +53,9 @@ namespace ZomBit
 				Game.Frame.Children.Add(Drawable);
 		}
 
+		/// <summary>
+		/// Gets called every frame by the game loop
+		/// </summary>
 		public virtual void Update()
 		{
 			Draw();

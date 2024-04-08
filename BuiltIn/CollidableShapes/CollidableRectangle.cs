@@ -18,7 +18,5 @@
 				Fill = new SolidColorBrush(Color)
 			};
 		}
-
-		
 	}
 }
