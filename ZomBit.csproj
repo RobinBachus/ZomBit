@@ -20,4 +20,8 @@
     <None Include="D:\OneDrive\PC\Scripts\C#\ZomBit\.editorconfig" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Misc\" />
+  </ItemGroup>
+
 </Project>

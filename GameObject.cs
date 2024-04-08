@@ -24,7 +24,6 @@ namespace ZomBit
 		/// </summary>
 		public abstract W_Shapes.Shape? Drawable { get; }
 
-		public bool HasCollision { get; set; } = true;
 		public bool IsVisible { get; set; } = true;
 
 		protected GameObject((int, int) position, int width, int height): this()
@@ -54,18 +53,5 @@ namespace ZomBit
 		{
 			Draw();
 		}
-
-		/// <summary>
-		/// Check if the object collides with another object
-		/// </summary>
-		/// <param name="other">The other object</param>
-		/// <returns>True if the objects collide, false otherwise</returns>
-		public bool CollidesWith(GameObject other) =>
-			HasCollision &&
-			other.HasCollision &&
-			X < other.X + other.Width &&
-			X + Width > other.X &&
-			Y < other.Y + other.Height &&
-			Y + Height > other.Y;
 	}
 }

@@ -1,29 +1,60 @@
 ﻿using System.Windows.Input;
+using ZomBit.Enums;
 using ZomBit.Interfaces;
 
 namespace ZomBit.GameObjects
 {
-	internal class Player : GameObject, IMovable
+	internal class Player : GameObject, IMovable, ICollidable<Player>
 	{
 		private readonly W_Shapes.Rectangle _drawable;
 
 		/// <inheritdoc />
 		public override W_Shapes.Shape Drawable => _drawable;
 
-		private int jumpHeight = 0;
+		public ICollidable<Player> Collidable => this;
 
-		public Player() : base((0, 0), 50, 50)
+		public event EventHandler<CollisionEventArgs>? Collision;
+
+		private const int GRAVITY = -10;
+
+		private int _jumpHeight = 0;
+
+		public Player() : base((25, 200), 50, 50)
 		{
 			_drawable = new W_Shapes.Rectangle
 			{
-				Fill = new SolidColorBrush(Colors.Red),
-				Width = 50,
-				Height = 50
+				Fill = new SolidColorBrush(Colors.SandyBrown),
+				Width = Width,
+				Height = Height
 			};
 
 			if (Game.Frame == null) return;
 
 			Game.Frame.KeyDown += MoveOnClick;
+			Collision += OnCollision;
+		}
+
+		private void OnCollision(object? sender, CollisionEventArgs args)
+		{
+			switch (args.CollisionDirection)
+			{
+				case CollisionDirection.Top:
+					Y = args.CollidedObject.Y + args.CollidedObject.Height + 1;
+					break;
+				case CollisionDirection.Bottom:
+					Y = args.CollidedObject.Y - Height - 1;
+					break;
+				case CollisionDirection.Right:
+					X = args.CollidedObject.X + args.CollidedObject.Width + 1;
+					break;
+				case CollisionDirection.Left:
+					X = args.CollidedObject.X - Width - 1;
+					break;
+				case CollisionDirection.None:
+					break;
+				default:
+					throw new ArgumentOutOfRangeException(nameof(args), args.CollisionDirection, "Invalid collision direction.");
+			}
 		}
 
 		public void SetStartPosition(int x, int y)
@@ -32,12 +63,12 @@ namespace ZomBit.GameObjects
 		}
 
 
-		/// <inheritdoc />
 		/// <summary>
 		/// Move the player.
 		/// </summary>
 		/// <param name="x"> The amount to move on the x-axis. </param>
 		/// <param name="y"> The amount to move on the y-axis. </param>
+		/// <inheritdoc />
 		public void Move(int x, int y)
 		{
 			(int newX, int newY) = (X + x, Y + y);
@@ -46,7 +77,9 @@ namespace ZomBit.GameObjects
 
 		public override void Update()
 		{
-			if (Y > 0) Move(0, -1);
+			Jump();
+			if (Y > 0) Move(0, GRAVITY + _jumpHeight);
+			CheckCollision();
 			base.Update();
 		}
 
@@ -57,11 +90,11 @@ namespace ZomBit.GameObjects
 		/// <param name="e"> The event arguments. </param>
 		private void MoveOnClick(object sender, KeyEventArgs e)
 		{
-			// ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+			// ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault -- We only care about these keys
 			switch (e.Key)
 			{
 				case Key.W:
-					Move(0, 10);
+					_jumpHeight = 10;
 					break;
 				case Key.A:
 					Move(-10, 0);
@@ -74,6 +107,30 @@ namespace ZomBit.GameObjects
 					break;
 				default:
 					return;
+			}
+		}
+
+		private void Jump()
+		{
+			if (_jumpHeight <= 0) return;
+
+			Move(0, 10);
+			_jumpHeight--;
+		}
+
+		/// <summary>
+		/// Check if the player collides with another object.
+		/// </summary>
+		public void CheckCollision()
+		{
+			foreach (GameObject gameObject in Game.GameObjectsInFrame)
+			{
+				if (gameObject == this) continue;
+
+				CollisionDirection collisionDirection = Collidable.CollidesWithDirection(gameObject);
+				if (collisionDirection is CollisionDirection.None) continue;
+
+				Collision?.Invoke(this, new CollisionEventArgs(this, gameObject, collisionDirection));
 			}
 		}
 	}

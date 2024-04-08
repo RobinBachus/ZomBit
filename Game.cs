@@ -1,5 +1,6 @@
 ﻿global using System.Windows.Media;
 global using W_Shapes = System.Windows.Shapes;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -11,31 +12,44 @@ namespace ZomBit
 	{
 		public static Canvas? Frame { get; private set; }
 		internal static Player? Player { get; private set; }
+		internal static ImmutableList<GameObject> GameObjectsInFrame
+		{
+			get
+			{
+				List<GameObject> gameObjects = CurrentScene.CurrentView.GameObjects.ToList();
+				if (Player != null) gameObjects.Add(Player);
+				
+				return gameObjects.ToImmutableList();
+			}
+		}
 
 		private readonly DispatcherTimer _tickTimer = new(TimeSpan.FromMilliseconds(1000 / 60.0), DispatcherPriority.Normal,
 			(e, s) => { }, Dispatcher.CurrentDispatcher);
 
-		private readonly List<Scene> _scenes = new(); // TODO: Implement scenes system
-		private int _currentSceneIndex = 0;
-		private Scene CurrentScene => _scenes[_currentSceneIndex];
+		private static readonly List<Scene> Scenes = new(); // TODO: Implement scenes system
+		private static int _currentSceneIndex;
+
+		internal static Scene CurrentScene => Scenes[_currentSceneIndex];
 
 		public Game(Canvas frame)
 		{
 			_tickTimer.Tick += Update;
 			_tickTimer.Start();
 			Frame = frame;
-			_scenes.Add(new Scenes.Scene0()); // TODO: Implement scenes system
+			Scenes.Add(new Scenes.Scene0()); // TODO: Implement scenes system
 			Player = new Player();
 			Frame.Focus();
 		}
 
-		private void Update(object? sender, EventArgs e)
+		private static void Update(object? sender, EventArgs e)
 		{
 			// Update game
-			CurrentScene.CurrentView.GameObjects.ForEach(go => go.Update());
-			Player?.Update();
-			if (Player?.CollidesWith(CurrentScene.CurrentView.GameObjects[0]) ?? false)
-				Debug.WriteLine(Player.Position);
+			GameObjectsInFrame.ForEach(go => go.Update());
+
 		}
+
+		public static void SetScene(int sceneIndex) => _currentSceneIndex = sceneIndex;
+
+		public static void NextScene() => _currentSceneIndex++;
 	}
 }
