@@ -1,4 +1,5 @@
 ﻿using ZomBit.Enums;
+using ZomBit.Misc;
 
 namespace ZomBit.Interfaces
 {

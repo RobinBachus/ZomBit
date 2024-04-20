@@ -11,10 +11,6 @@ namespace ZomBit.Scenes
 		public static View? CurrentView
 		{
 			get => CurrentScene?.CurrentView;
-			set
-			{
-				if (CurrentScene != null) CurrentScene.CurrentView = value;
-			}
 		}
 
 		public static ImmutableList<Scene> Scenes { get; private set; } = ImmutableList<Scene>.Empty;

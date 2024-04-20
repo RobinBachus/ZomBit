@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
-using System.Windows.Threading;
 using ZomBit.GameObjects;
+using ZomBit.Internal;
 using ZomBit.Scenes;
 
 namespace ZomBit
@@ -21,25 +21,16 @@ namespace ZomBit
 			}
 		}
 
-		private static View? _lastView;
+		private static readonly TimingManager _timingManager = new();
 
-		/// <summary>
-		/// The timer that ticks every frame (60 fps)
-		/// </summary>
-		private static readonly DispatcherTimer _tickTimer = new(TimeSpan.FromMilliseconds(1000 / 60.0), DispatcherPriority.Normal,
-			(_, _) => { }, Dispatcher.CurrentDispatcher);
-
-		/// <summary>
-		/// The event that gets called every frame
-		/// </summary>
-		/// <remarks>
-		/// Since this is the thread that the game loop runs on, it is important to keep this event as small as possible.
-		/// </remarks>
+		/// <inheritdoc cref="TimingManager.Update"/>
 		public static event EventHandler Update
 		{
-			add => _tickTimer.Tick += value;
-			remove => _tickTimer.Tick -= value;
+			add => _timingManager.Update += value; 
+			remove => _timingManager.Update -= value;
 		}
+
+		private static View? _lastView;
 
 		/// <summary>
 		/// Sets the frame and starts the game loop
@@ -54,7 +45,6 @@ namespace ZomBit
 			Frame.Focus();
 
 			Update += OnUpdate;
-			_tickTimer.Start();
 		}
 
 		private static void OnUpdate(object? sender, EventArgs e)
@@ -73,6 +63,7 @@ namespace ZomBit
 			_lastView = SceneManager.CurrentView;
 
 			GameObjectsInFrame.ForEach(go => go.Update());
+			SceneManager.CurrentScene.Objective?.CheckCollision();
 		}
 
 		public static void ClearFrame() => Frame?.Children.Clear();

@@ -1,6 +1,6 @@
 ﻿using ZomBit.Enums;
 
-namespace ZomBit.Interfaces
+namespace ZomBit.Misc
 {
 	internal class CollisionEventArgs(GameObject thisObject, GameObject otherObject, CollisionDirection direction) : EventArgs
 	{
