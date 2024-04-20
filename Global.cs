@@ -2,7 +2,8 @@
 global using System.Windows.Media;
 global using System.Collections.Immutable;
 global using System.Diagnostics;
-global using WinShapes = System.Windows.Shapes;
+global using WpfShapes = System.Windows.Shapes;
+global using WpfControls = System.Windows.Controls;
 
 namespace ZomBit
 {
@@ -13,10 +14,10 @@ namespace ZomBit
 	/// </summary>
 	internal static class Global
 	{
-		public const string Creator = "Robin Bachus";
-		public const string GameName = "ZomBit";
-		public const string GameDescription = "ZomBit is a project that includes a game engine and a game that uses that engine.";
+		public const string CREATOR = "Robin Bachus";
+		public const string GAME_NAME = "ZomBit";
+		public const string GAME_DESCRIPTION = "ZomBit is a project that includes a game engine and a game that uses that engine.";
 
-		public static new string ToString() => $"{GameName} by {Creator} \n- {GameDescription}";
+		public static new string ToString() => $"{GAME_NAME} by {CREATOR} \n- {GAME_DESCRIPTION}";
 	}
 }

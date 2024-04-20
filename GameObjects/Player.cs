@@ -7,7 +7,7 @@ namespace ZomBit.GameObjects
 {
 	internal class Player : GameObject, IMovable, ICollidable<Player>
 	{
-		protected override WinShapes.Rectangle StaticDrawable { get; }
+		protected override WpfShapes.Rectangle StaticDrawable { get; }
 
 		public ICollidable<Player> Collidable => this;
 
@@ -21,7 +21,7 @@ namespace ZomBit.GameObjects
 
 		public Player() : base((25, 200), 50, 50)
 		{
-			StaticDrawable = new WinShapes.Rectangle
+			StaticDrawable = new WpfShapes.Rectangle
 			{
 				Fill = new SolidColorBrush(Colors.SandyBrown),
 				Width = Width,
