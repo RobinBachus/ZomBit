@@ -44,8 +44,6 @@ namespace ZomBit.Internal
 			_stopwatch.Start();
 			long lastTime = _stopwatch.ElapsedMilliseconds;
 
-			Debug.WriteLine($"Stopwatch high resolution: {Stopwatch.IsHighResolution}");
-
 			Update += (_, _) =>
 			{
 				long currentTime = _stopwatch.ElapsedMilliseconds;

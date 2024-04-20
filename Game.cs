@@ -1,4 +1,6 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Shell;
+using ZomBit.BuiltIn.UI;
 using ZomBit.GameObjects;
 using ZomBit.Internal;
 using ZomBit.Scenes;
@@ -12,6 +14,9 @@ namespace ZomBit
 		/// </summary>
 		public static Canvas? Frame { get; private set; }
 
+		public static double FrameHeight => Frame?.ActualHeight ?? 0;
+		public static double FrameWidth => Frame?.ActualWidth ?? 0;
+
 		/// <summary>
 		/// The player object that is used by all scenes
 		/// </summary>
@@ -23,6 +28,7 @@ namespace ZomBit
 				List<GameObject>? gameObjects = SceneManager.CurrentView?.GameObjects.ToList();
 				if (gameObjects == null) return ImmutableList<GameObject>.Empty;
 				if (Player != null) gameObjects.Add(Player);
+				if (_fpsDisplay != null) gameObjects.Add(_fpsDisplay);
 				
 				return gameObjects.ToImmutableList();
 			}
@@ -45,6 +51,9 @@ namespace ZomBit
 			}
 		}
 
+		// TODO: TEMPORARY, REMOVE
+		private static TextLabel? _fpsDisplay;
+
 		/// <summary>
 		/// The last view that was rendered
 		/// </summary>
@@ -66,6 +75,9 @@ namespace ZomBit
 		{
 			Frame = frame;
 			SceneManager.LoadScenes();
+
+			frame.Loaded += (_, _) =>
+				_fpsDisplay = new TextLabel((0, 0), 10, 10, "Fps");
 
 			Player = new Player();
 			Frame.Focus();
@@ -93,6 +105,9 @@ namespace ZomBit
 			}
 
 			_lastView = SceneManager.CurrentView;
+			if (_fpsDisplay != null)
+				_fpsDisplay.Text = $"Fps: {Math.Floor(_timingManager.Fps)}";
+			
 
 			// If the scale has changed, update the layout
 			if (_scaleChanged) Frame.LayoutTransform = new ScaleTransform(Scale, Scale);
